@@ -28,7 +28,7 @@ public class Hero extends Character {
         imageRadar = (BufferedImage) imageCollection.getImage(15);
         this.image = (BufferedImage) imageCollection.getImage(imageIndex);
         this.posX = frameWidth / 2 - image.getWidth()/2;
-        this.posY = frameHeight / 2 - image.getHeight()/2;
+        this.posY = frameHeight / 2 - image.getHeight();
     }
 
     public void setState(State e){
@@ -118,12 +118,6 @@ public class Hero extends Character {
     }
 
     public BufferedImage getImage(){
-        int ix, iy, width, height;
-        width = image.getWidth() / sprites;
-        height = image.getHeight();
-        ix = width*step;
-        iy = 0;
-
         switch (state){
             case knife:
             case move:
@@ -132,6 +126,11 @@ public class Hero extends Character {
                 }
                 break;
         }
+        int ix, iy, width, height;
+        width = image.getWidth() / sprites;
+        height = image.getHeight();
+        ix = width*step;
+        iy = 0;
         return image.getSubimage(ix,iy,width,height);
     }
 }

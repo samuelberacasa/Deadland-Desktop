@@ -9,12 +9,10 @@ public class Game extends Canvas implements Runnable, KeyListener{
     BufferStrategy strategy;
     Graphics batch;
     GameController game;
-    int xTiles, yTiles;
+    int XI, YI;
 
     public Game(){
         game = new GameController();
-        xTiles = (int) Math.ceil(GameVariables.FrameWidth/GameVariables.TileSize);
-        yTiles = (int) Math.ceil(GameVariables.FrameHeight/GameVariables.TileSize);
     }
 
     public void render(){
@@ -25,14 +23,23 @@ public class Game extends Canvas implements Runnable, KeyListener{
         }
         batch = strategy.getDrawGraphics();
         ///////////////////////////////////////////////////////
-        //batch.setColor(Color.BLACK);
-        //batch.fillRect(0,0,GameVariables.FrameWidth, GameVariables.FrameHeight);
-        for(int x = 0; x < game.board.boardGame.length; x++){
-            for(int y = 0; y < game.board.boardGame[y].length; y++){
-                batch.drawImage(game.board.boardTiles[x][y].getImage(),
-                        x*GameVariables.TileSize,
-                        y*GameVariables.TileSize,this);
+        batch.setColor(Color.BLACK);
+        batch.fillRect(0,0,GameVariables.FrameWidth, GameVariables.FrameHeight);
+        XI = 0 - (game.hero.x*GameVariables.TileSize+game.hero.image.getWidth()/(4*game.hero.sprites)- GameVariables.FrameWidth/2);
+        for(int x = 0; x < game.board.mapRaw.length; x++){
+            if(XI>-GameVariables.TileSize/2 && XI < GameVariables.FrameWidth){
+                YI = 0 - (game.hero.y*GameVariables.TileSize+game.hero.image.getHeight()/3 - GameVariables.FrameHeight/2);
+                for(int y = 0; y < game.board.mapRaw[0].length; y++){
+                    /*if(game.board.boardGame[x][y]==1){
+                        batch.drawImage(game.board.boardTiles[x][y].getImage(), XI, YI,this);
+                    }*/
+                    if(YI>-GameVariables.TileSize && YI < GameVariables.FrameHeight){
+                        batch.drawImage(game.board.boardTiles[x][y].getImage(), XI, YI,this);
+                    }
+                    YI+=GameVariables.TileSize;
+                }
             }
+            XI+=GameVariables.TileSize;
         }
         batch.drawImage(game.hero.getImage(), game.hero.posX, game.hero.posY,this);
         ///////////////////////////////////////////////////////

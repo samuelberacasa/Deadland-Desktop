@@ -4,6 +4,7 @@ import Board.Board;
 import Characters.Character;
 import Characters.Hero;
 import Extra.Weapon;
+import Time.Stopwatch;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,9 +16,11 @@ public class GameController extends Canvas{
     public State gameState;
     Board board;
     Hero hero;
+    Stopwatch moveTime;
 
     public GameController(){
         gameState = State.stop;
+        moveTime = new Stopwatch(4);
         try{
             board = new Board("TestMap");
             hero = new Hero(board.getHeroX(),board.getHeroY(), GameVariables.FrameWidth, GameVariables.FrameHeight,new Weapon("pistol",1,1,1,1,1,1));
@@ -38,18 +41,41 @@ public class GameController extends Canvas{
                     case KeyEvent.VK_DOWN:
                         hero.direc = Character.Direction.down;
                         hero.setState(Hero.State.move);
-                        break;
+                        if(moveTime.isTime()){
+                            board.boardGame[hero.x][hero.y]=0;
+                            board.boardGame[hero.x][hero.y+1]=1;
+                            hero.y+=1;
+                            break;
+                        }
                     case KeyEvent.VK_LEFT:
                         hero.direc = Character.Direction.left;
                         hero.setState(Hero.State.move);
+                        if(moveTime.isTime()){
+                            board.boardGame[hero.x][hero.y]=0;
+                            board.boardGame[hero.x-1][hero.y]=1;
+                            hero.x-=1;
+                            break;
+                        }
                         break;
                     case KeyEvent.VK_RIGHT:
                         hero.direc = Character.Direction.right;
                         hero.setState(Hero.State.move);
+                        if(moveTime.isTime()){
+                            board.boardGame[hero.x][hero.y]=0;
+                            board.boardGame[hero.x+1][hero.y]=1;
+                            hero.x+=1;
+                            break;
+                        }
                         break;
                     case KeyEvent.VK_UP:
                         hero.direc = Character.Direction.up;
                         hero.setState(Hero.State.move);
+                        if(moveTime.isTime()){
+                            board.boardGame[hero.x][hero.y]=0;
+                            board.boardGame[hero.x][hero.y-1]=1;
+                            hero.y-=1;
+                            break;
+                        }
                         break;
                     case KeyEvent.VK_D:
                         hero.setState(Hero.State.knife);

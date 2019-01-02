@@ -29,10 +29,9 @@ public class Board {
         int y = 0;
         while ((line = file.readLine()) != null){
             String split[] = line.split("");
-            for(int x=0; x < width; x++){
+            for(int x=0; x < split.length; x++){
                 String tile = split[x];
                 mapRaw[x][y]=tile;
-
             }
             y++;
         }
@@ -44,7 +43,7 @@ public class Board {
         ImageIcon icon;
         for (int x=0; x < mapRaw.length; x++){
             for(int y=0; y < mapRaw[x].length; y++){
-                if(mapRaw[x][y]=="x"){
+                if(mapRaw[x][y].equals("x")){
                     icon = new ImageIcon("Resources//Tiles//1.png");
                     boardTiles[x][y]=icon;
                 }else{
@@ -56,23 +55,24 @@ public class Board {
     }
 
     public void fillBoardCharacters(){
-        for (int width=0; width < mapRaw.length; width++){
-            for(int height=0; height < mapRaw[width].length; height++){
-                if(mapRaw[width][height]=="x"){
-                    boardGame[width][height]=1;
-                }else if(mapRaw[width][height]=="0"){
-                    boardGame[width][height]=9;
+        for (int x=0; x < mapRaw.length; x++){
+            for(int y=0; y < mapRaw[x].length; y++){
+                if(mapRaw[x][y].equals("x")){
+                    boardGame[x][y]=1;
+                }else if(mapRaw[x][y].equals("0")){
+                    boardGame[x][y]=9;
+                }else{
+                    boardGame[x][y]=0;
                 }
-                boardGame[width][height]=0;
             }
         }
     }
 
     public int getHeroX(){
-        for (int width=0; width < mapRaw.length; width++){
-            for(int height=0; height < mapRaw[width].length; height++) {
-                if(boardGame[width][height]==1){
-                    return width;
+        for (int x=0; x < boardGame.length; x++){
+            for(int y=0; y < boardGame[x].length; y++) {
+                if(boardGame[x][y]==1){
+                    return x;
                 }
             }
         }
@@ -80,10 +80,10 @@ public class Board {
     }
 
     public int getHeroY(){
-        for (int width=0; width < mapRaw.length; width++){
-            for(int height=0; height < mapRaw[width].length; height++) {
-                if(boardGame[width][height]==1){
-                    return height;
+        for (int x=0; x < boardGame.length; x++){
+            for(int y=0; y < boardGame[x].length; y++) {
+                if(boardGame[x][y]==1){
+                    return y;
                 }
             }
         }
